@@ -1,14 +1,18 @@
 package edu.hw1;
 
 public final class Task2 {
-    private Task2(){}
-    final private static int TEN = 10;
+    private static final int SPLITTER = 10;
+
+
+
+    private Task2() {}
+
     public static int countDigits(int number) {
         int digitCount = 1;
         int privateNumber = number;
-        while (privateNumber / TEN != 0) {
+        while (privateNumber / SPLITTER != 0) {
             digitCount++;
-            privateNumber = privateNumber / TEN;
+            privateNumber = privateNumber / SPLITTER;
         }
         return digitCount;
     }

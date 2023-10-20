@@ -1,73 +1,79 @@
 package edu.hw1;
 
 import java.util.Arrays;
-import java.util.Collections;
+
 
 public final class Task6 {
-    final private static int TEN = 10;
-    final private static int KAPREKAR_CONSTANT = 6174;
+    private static final int SPLITTER = 10;
+    private static final int KAPREKAR_CONSTANT = 6174;
+    private static final int VALID_NUMBER_SIZE = 4;
 
-    private Task6(){}
+    private Task6() {}
 
-    public static int countK(int number){
-        return K(number,0);
+    public static int countK(int number) {
+        if (getNumberLength(number) != VALID_NUMBER_SIZE || isAllDigitAreSame(number)) {
+            return -1;
+        }
+        return K(number, 0);
     }
 
-    private static int K(int number, int count){
+    private static int K(int number, int count) {
         int sortedDeskNumber = getSortedDescNumber(number);
         int sortedAscNumber = getSortedAscNumber(number);
         int newNumber = 0;
-        if(sortedAscNumber > sortedDeskNumber){
+        if (sortedAscNumber > sortedDeskNumber) {
             newNumber = sortedAscNumber - sortedDeskNumber;
         } else {
             newNumber = sortedDeskNumber - sortedAscNumber;
         }
-        if(newNumber == KAPREKAR_CONSTANT) {
+        if (newNumber == KAPREKAR_CONSTANT) {
             return count + 1;
         } else {
             return K(newNumber, count + 1);
         }
     }
 
-    private static int getSortedDescNumber(int number){
-        int[] digitArray = ConvertNumberToDigitArray(number);
+    private static int getSortedDescNumber(int number) {
+        int[] digitArray = convertNumberToDigitArray(number);
         int newLength = digitArray.length;
-        int[] copiedArray = Arrays.copyOf(digitArray,newLength);
+        int[] copiedArray = Arrays.copyOf(digitArray, newLength);
         sortDescending(copiedArray);
-        return ConvertDigitArrayToNumber(copiedArray);
+        return convertDigitArrayToNumber(copiedArray);
     }
 
-    private static int getSortedAscNumber(int number){
-        int[] digitArray = ConvertNumberToDigitArray(number);
+    private static int getSortedAscNumber(int number) {
+        int[] digitArray = convertNumberToDigitArray(number);
         int newLength = digitArray.length;
-        int[] copiedArray = Arrays.copyOf(digitArray,newLength);
+        int[] copiedArray = Arrays.copyOf(digitArray, newLength);
         sortAscending(copiedArray);
-        return ConvertDigitArrayToNumber(copiedArray);
+        return convertDigitArrayToNumber(copiedArray);
     }
 
-    private static int getNumberLength(int number){
+    private static int getNumberLength(int number) {
+        int localNumber = number;
         int length = 0;
-        while(number > 0){
+        while (localNumber > 0) {
             length++;
-            number = number / 10;
+            localNumber = localNumber / SPLITTER;
         }
         return length;
     }
 
-    private static int[] ConvertNumberToDigitArray(int number){
+    private static int[] convertNumberToDigitArray(int number) {
+        int localNumber = number;
         int numberLength = getNumberLength(number);
         int[] digitArray = new int[numberLength];
-        for(int i = 0; i < numberLength; i++){
-            digitArray[i] = number % 10;
-            number = number / 10;
+        for (int i = 0; i < numberLength; i++) {
+            digitArray[i] = localNumber % SPLITTER;
+            localNumber = localNumber / SPLITTER;
         }
         return digitArray;
     }
 
-    private static int ConvertDigitArrayToNumber(int[] digitArray){
+    private static int convertDigitArrayToNumber(int[] digitArray) {
         int newNumber = 0;
-        for(int i = 0; i < digitArray.length; i++){
-            newNumber = newNumber + digitArray[i]*(int)Math.pow(TEN,digitArray.length - i);
+        for (int i = 0; i < digitArray.length; i++) {
+            newNumber = newNumber + digitArray[i] * (int) Math.pow(SPLITTER, digitArray.length - i - 1);
         }
         return newNumber;
     }
@@ -96,5 +102,14 @@ public final class Task6 {
         }
     }
 
+    private static boolean isAllDigitAreSame(int number) {
+        int[] digitArray = convertNumberToDigitArray(number);
+        for (int i = 0; i < digitArray.length - 1; i++) {
+            if (digitArray[i] != digitArray[i + 1]) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 

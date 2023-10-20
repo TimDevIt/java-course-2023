@@ -13,20 +13,20 @@ public class Task4Test {
 
     @Test
     @DisplayName("string with spaces")
-    void testStringWithSpaces(){
+    void testStringWithSpaces() {
         assertThat(fixString("hTsii  s aimex dpus rtni.g"))
             .isEqualTo("This is a mixed up string.");
     }
 
     @Test
     @DisplayName("empty string")
-    void testEmptyString(){
+    void testEmptyString() {
         assertThat(fixString("")).isEqualTo("");
     }
 
     @Test
     @DisplayName("string is null")
-    void testStringIsNull(){
+    void testStringIsNull() {
         assertThat(fixString(null)).isEqualTo("");
     }
 
